@@ -1,0 +1,10 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.example.sendmessage////PointingToDeclaration/app/com.example.sendmessage/index.html
+$dokka.location:com.example.sendmessage/SendActivity.Companion///PointingToDeclaration/app/com.example.sendmessage/-send-activity/-companion/index.html
+$dokka.location:com.example.sendmessage/SendActivity.Companion/EXTRA_MESSAGE/#/PointingToDeclaration/app/com.example.sendmessage/-send-activity/-companion/-e-x-t-r-a_-m-e-s-s-a-g-e.html
+$dokka.location:com.example.sendmessage/SendActivity///PointingToDeclaration/app/com.example.sendmessage/-send-activity/index.html
+$dokka.location:com.example.sendmessage/SendActivity/SendActivity/#/PointingToDeclaration/app/com.example.sendmessage/-send-activity/-send-activity.html
+$dokka.location:com.example.sendmessage/ViewActivity///PointingToDeclaration/app/com.example.sendmessage/-view-activity/index.html
+$dokka.location:com.example.sendmessage/ViewActivity/ViewActivity/#/PointingToDeclaration/app/com.example.sendmessage/-view-activity/-view-activity.html
+com.example.sendmessage

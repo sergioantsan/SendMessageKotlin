@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Textos utilizados en las dos pantallas. -->
+    <string name="app_name">SendMessage</string>
+    <string name="send_title">Enviar un mensaje</string>
+    <string name="message_hint">Escribe aquí tu mensaje</string>
+    <string name="send_button">Enviar</string>
+    <string name="received_title">Mensaje recibido</string>
+    <string name="received_placeholder">Aquí aparecerá el mensaje</string>
+    <string name="received_message_format">De: %1$s %2$s\n\n%3$s\n\nPara: %4$s %5$s</string>
+    <string name="message_icon_description">Icono de mensaje</string>
+</resources>
