@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.dokka.javadoc)
 }
 
 android {
@@ -52,6 +53,9 @@ dokka {
     dokkaPublications.html {
         outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation"))
     }
+    dokkaPublications.javadoc {
+        outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation-javadoc"))
+    }
     dokkaSourceSets.configureEach {
         if (name == "release") {
             sourceRoots.from(file("src/main/java"))
@@ -63,5 +67,9 @@ dokka {
 
 // El alias de compatibilidad lo proporciona la tarea raíz dokkaHtml.
 tasks.named("dokkaHtml") {
+    enabled = false
+}
+
+tasks.named("dokkaJavadoc") {
     enabled = false
 }

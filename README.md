@@ -121,3 +121,11 @@ Captura Device Explorer con la ruta completa `/data/data/com.example.sendmessage
 ```markdown
 ![Device Explorer mostrando /data/data/com.example.sendmessage](screenshots/04-device-explorer-ruta.png)
 ```
+
+## Generación de la documentación de API
+
+Desde la raíz del proyecto, ejecuta `./gradlew dokkaHtml` para generar la versión HTML en `documentation/index.html`. Para generar la versión Javadoc, ejecuta `./gradlew dokkaJavadoc`; el resultado queda en `documentation-javadoc/index.html`. El comando `./gradlew dokka Javadoc` genera ambos formatos.
+
+El workflow `.github/workflows/desplegar-dokka.yml` genera el HTML y lo publica en GitHub Pages cuando se hace push a `main`. También puede ejecutarse desde **Actions → Desplegar Dokka en GitHub Pages → Run workflow**.
+
+Para habilitar el despliegue, selecciona **GitHub Actions** en **Settings → Pages → Build and deployment → Source** del repositorio. Las ejecuciones se consultan en [Actions de SendMessageKotlin](https://github.com/sergioantsan/SendMessageKotlin/actions) y la documentación publicada queda en [GitHub Pages](https://sergioantsan.github.io/SendMessageKotlin/).
