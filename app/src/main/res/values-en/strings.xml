@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">SendMessage</string>
+    <string name="send_title">send a message</string>
+    <string name="message_hint">Write your message here</string>
+    <string name="send_button">Send</string>
+    <string name="received_title">Message received</string>
+    <string name="received_placeholder">The message will appear here.</string>
+    <string name="received_message_format">From: %1$s %2$s  %3$s  To: %4$s %5$s</string>
+    <string name="message_icon_description">Message icon</string>
 </resources>

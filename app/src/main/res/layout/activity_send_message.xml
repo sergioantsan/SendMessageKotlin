@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pantalla de envío con un campo de texto y un botón estándar. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  Pantalla de envío con un campo de texto y un botón estándar.
+
+  Control de la barra de estado (edge-to-edge):
+   - La Activity registra un listener de insets sobre @+id/main (raíz) que convierte
+     las barras del sistema en padding: el contenido nunca se dibuja bajo la barra.
+   - CoordinatorLayout como raíz respeta ese padding al medir y colocar a sus hijos,
+     y deja hueco para añadir comportamientos (AppBarLayout, FAB) si hicieran falta.
+   - El fondo queda en el raíz para cubrir también la zona de la barra
+     (comportamiento esperado en edge-to-edge).
+   - fitsSystemWindows="true" solo en el raíz como red de seguridad: si el listener
+     no estuviera activo aplicaría el mismo padding. El listener tiene prioridad
+     sobre fitsSystemWindows en la misma vista, así que nunca se duplica.
+   - El LinearLayout interno no lleva fitsSystemWindows: los insets llegan sin
+     consumir y el padding se duplicaría.
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_background"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,4 +65,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

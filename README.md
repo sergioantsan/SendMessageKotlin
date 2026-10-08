@@ -1,14 +1,52 @@
-# SendMessage
+# SendMessage — App Android de ejemplo en Kotlin con Activities, Intents y datos Serializable
+
+> Proyecto educativo de **desarrollo Android** que envía un objeto `Message` desde una Activity a otra usando `Intent`, clases de datos `Serializable` y layouts XML, con registro del ciclo de vida en Logcat.
+
+## Capturas de la aplicación
+
+| Pantalla | Captura |
+|---|---|
+| Pantalla inicial | ![Pantalla inicial de SendMessage](screenshots/00-pantalla-inicial.png) |
+| Mensaje escrito | ![Mensaje escrito antes de enviarlo](screenshots/01-mensaje-escrito-actual.png) |
+| Mensaje recibido | ![Mensaje recibido en ViewMessageActivity](screenshots/02-recibido.png) |
+| Logcat | ![Logcat con las etiquetas de ambas Activities](screenshots/03-logcat.png) |
+| Device Explorer | ![Device Explorer mostrando /data/data/com.example.sendmessage](screenshots/04-device-explorer.png) |
 
 ## 1. Descripción del proyecto
 
-SendMessage es una aplicación Android sencilla, desarrollada en Kotlin. Permite escribir un texto en una pantalla, crear un objeto que representa el mensaje y mostrarlo en una segunda pantalla.
+SendMessage es una aplicación Android sencilla, desarrollada en Kotlin. Permite escribir un texto en una pantalla, crear un objeto que representa el mensaje y mostrarlo en una segunda pantalla. Es una práctica típica de **programación Android en Kotlin** para dominar el **ciclo de vida de las Activities** y el paso de datos con **Intents**.
 
 El objetivo de la práctica es trabajar con Activities, interfaces declaradas en XML, el paso de datos mediante `Intent`, clases de datos serializables y el ciclo de vida de una Activity. El código actual no envía mensajes por Internet ni los guarda en una base de datos: el mensaje se pasa entre dos pantallas de la misma aplicación.
 
 La aplicación admite desde Android API 24 (`minSdk`) y tiene `targetSdk` 36, según la configuración del módulo `app`.
 
-## 2. Estructura del proyecto
+## 2. Características
+
+- Envío de un objeto `Message` completo entre Activities mediante un `Intent` explícito y la clave `EXTRA_MESSAGE`.
+- Modelos de datos con `data class` (`Message`, `Person`) que implementan `Serializable`.
+- Interfaz declarada en **XML** con `LinearLayout`, `EditText`, `Button`, `TextView` e `ImageView`.
+- Dos Activities: `SendMessageActivity` (entrada y envío) y `ViewMessageActivity` (recepción y presentación).
+- Soporte de **edge-to-edge** con insets de las barras del sistema.
+- Logs del ciclo de vida (`onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`) con `Log.d` y etiquetas por pantalla.
+- Compatibilidad desde **Android 7.0 (API 24)** hasta **Android 16 (targetSdk 36)**.
+- Pruebas unitarias (JUnit) y pruebas instrumentadas (Espresso) de ejemplo.
+- Documentación de API generada con **Dokka** y publicada en GitHub Pages.
+
+## 3. Arquitectura y tecnologías
+
+| Categoría | Tecnología / versión |
+|---|---|
+| Lenguaje | Kotlin 2.4.20 |
+| Build | Android Gradle Plugin 9.3.3, Gradle con `libs.versions.toml` |
+| UI | Layouts XML (`LinearLayout`), Material Components 1.10.0 |
+| Arquitectura | Dos Activities con paso de datos por `Intent` (sin framework MVVM) |
+| Datos | `Serializable` (`Message`, `Person`) transportado en el extra del `Intent` |
+| Dependencias | `core-ktx` 1.18.0, `appcompat` 1.6.1, `activity-ktx` 1.13.0, `constraintlayout` 2.1.4 |
+| Pruebas | JUnit 4.13.2, AndroidX JUnit 1.3.0, Espresso 3.7.0 |
+| Documentación | Dokka 2.2.0 (HTML y Javadoc) |
+| SDK | `minSdk` 24, `targetSdk` 36, `applicationId` `com.example.sendmessage` |
+
+## 4. Estructura del proyecto
 
 ```text
 SendMessage/
@@ -36,10 +74,10 @@ SendMessage/
 
 Las pruebas incluidas son ejemplos básicos del proyecto: una comprueba una suma y otra verifica el identificador de paquete de la aplicación. No comprueban el recorrido completo de envío del mensaje.
 
-## 3. Decisiones de diseño
+## 5. Decisiones de diseño
 
 - **Dos Activities:** `SendMessageActivity` se ocupa de la entrada del texto y `ViewMessageActivity` de su presentación. Ambas están declaradas en `AndroidManifest.xml`; la primera tiene el filtro `MAIN` y `LAUNCHER`, por lo que es la pantalla inicial.
-- **Layouts XML separados:** cada Activity carga su propio archivo de `res/layout`. La interfaz está separada del código Kotlin y utiliza `LinearLayout`, `EditText`, `Button`, `TextView` e `ImageView`.
+- **Layouts XML separados:** cada Activity carga su propio archivo de `res/layout`. La interfaz está separada del código Kotlin: la raíz es un `CoordinatorLayout` con un `LinearLayout` dentro, y se usan `EditText`, `Button`, `TextView` e `ImageView`.
 - **Modelos con `data class`:** `Message` agrupa `id`, `content`, `sender` y `receiver`; `Person` contiene `dni`, `name` y `surname`. Los parámetros del constructor dejan explícitos los datos de cada objeto.
 - **Paso del objeto serializable:** `Message` y `Person` implementan `Serializable`. Así se entrega el mensaje completo mediante un extra del `Intent`, en vez de pasar solo el texto. Se ha elegido para practicar este concepto; Android también ofrece `Parcelable` y `Bundle` para transportar datos entre Activities.
 - **Intent explícito y clave compartida:** el `Intent` indica directamente que debe abrirse `ViewMessageActivity`. La constante `EXTRA_MESSAGE` centraliza la clave usada para guardar y recuperar el objeto.
@@ -48,7 +86,7 @@ Las pruebas incluidas son ejemplos básicos del proyecto: una comprueba una suma
 - **Edge-to-edge e insets:** las Activities llaman a `enableEdgeToEdge()` y aplican los insets de las barras del sistema al layout raíz.
 - **Etiquetas de Logcat por pantalla:** cada Activity define su propio `TAG`, `SendMessageActivity` o `ViewMessageActivity`, para poder distinguir sus registros.
 
-## 4. Funcionamiento de la aplicación
+## 6. Funcionamiento de la aplicación
 
 1. Android inicia `SendMessageActivity`, que carga `activity_send_message.xml` con `setContentView`.
 2. `findViewById` conecta el `EditText` y el `Button` del XML con variables Kotlin. Al botón se le asigna un `setOnClickListener`.
@@ -59,7 +97,30 @@ Las pruebas incluidas son ejemplos básicos del proyecto: una comprueba una suma
 
 Si no se recibe un objeto `Message`, la segunda pantalla utiliza el texto de reserva definido en `received_placeholder`.
 
-## 5. Proceso de depuración y uso de Logcat
+## 7. Comenzando: requisitos, instalación y ejecución
+
+### Requisitos previos
+
+- **Android Studio** (versión compatible con AGP 9.3.3, por ejemplo Ladyfish o superior).
+- **JDK 17** o superior (requisito de Android Gradle Plugin 9.x).
+- Un dispositivo o emulador con **Android 7.0 (API 24)** o superior.
+
+### Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/sergioantsan/SendMessageKotlin.git
+   ```
+2. Abre la carpeta del proyecto en **Android Studio** y deja que sincronice Gradle.
+3. Si prefieres la terminal: `./gradlew assembleDebug`.
+
+### Ejecución
+
+1. Selecciona un dispositivo o emulador en el desplegable de Android Studio.
+2. Pulsa **Run ▶** (o `./gradlew installDebug` desde terminal).
+3. Escribe un texto en la pantalla inicial y pulsa **Enviar** para ver la pantalla de recepción.
+
+## 8. Depuración con Logcat
 
 1. Ejecuta la aplicación desde Android Studio en un emulador o dispositivo conectado.
 2. En la herramienta **Logcat**, selecciona el dispositivo y el proceso de `com.example.sendmessage`.
@@ -68,7 +129,7 @@ Si no se recibe un objeto `Message`, la segunda pantalla utiliza el texto de res
 
 Al abrir la segunda pantalla se puede observar cómo la Activity de envío pierde el primer plano y cómo la receptora pasa por su creación, inicio y reanudación. Android ejecuta los callbacks según el ciclo de vida de cada Activity; los registros permiten seguir ese recorrido durante la práctica.
 
-## 6. Documentación oficial de Android Developers
+## 9. Documentación oficial de Android Developers
 
 - [Introducción a las Activities](https://developer.android.com/guide/components/activities/intro-activities): qué es una Activity y cómo se declara en el manifiesto.
 - [Ciclo de vida de una Activity](https://developer.android.com/guide/components/activities/activity-lifecycle.html): callbacks como `onCreate`, `onResume` y `onPause`.
@@ -80,52 +141,18 @@ Al abrir la segunda pantalla se puede observar cómo la Activity de envío pierd
 - [Ver registros con Logcat](https://developer.android.com/studio/debug/logcat): inspeccionar mensajes de depuración de la aplicación.
 - [Ver archivos del dispositivo con Device Explorer](https://developer.android.com/studio/debug/device-file-explorer): explorar archivos accesibles del dispositivo o emulador.
 
-## 7. Evidencias de funcionamiento mediante capturas de pantalla
+## 10. Generación de la documentación de API
 
-Las tres primeras capturas se tomaron en el emulador Pixel 5 con la versión actual de la aplicación. Las imágenes anteriores que ya estaban en `screenshots/` no se reutilizan: corresponden a una ejecución previa. Quedan pendientes las capturas de los paneles Logcat y Device Explorer.
-
-### 7.1 Pantalla inicial
-
-Captura de la aplicación al abrirse, antes de escribir un mensaje.
-
-![Pantalla inicial de SendMessage](screenshots/00-pantalla-inicial.png)
-
-### 7.2 Mensaje escrito
-
-Captura de la pantalla de envío con el texto «Esto es una prueba», antes de pulsar **Enviar**.
-
-![Mensaje escrito antes de enviarlo](screenshots/01-mensaje-escrito-actual.png)
-
-### 7.3 Mensaje recibido
-
-Captura de la segunda pantalla después del envío, con remitente, contenido y destinatario.
-
-![Mensaje recibido en ViewMessageActivity](screenshots/02-mensaje-recibido-actual.png)
-
-### 7.4 Logcat
-
-Captura Logcat durante la ejecución y procura que se vean las etiquetas actuales `SendMessageActivity` y `ViewMessageActivity` y sus eventos del ciclo de vida.
-
-**Pendiente:** guarda la captura como `screenshots/03-logcat-actual.png` y coloca aquí:
-
-```markdown
-![Logcat con las etiquetas de ambas Activities](screenshots/03-logcat-actual.png)
-```
-
-### 7.5 Device Explorer
-
-Captura Device Explorer con la ruta completa `/data/data/com.example.sendmessage` visible.
-
-**Pendiente:** guarda la captura como `screenshots/04-device-explorer-ruta.png` y coloca aquí:
-
-```markdown
-![Device Explorer mostrando /data/data/com.example.sendmessage](screenshots/04-device-explorer-ruta.png)
-```
-
-## Generación de la documentación de API
-
-Desde la raíz del proyecto, ejecuta `./gradlew dokkaHtml` para generar la versión HTML en `documentation/index.html`. Para generar la versión Javadoc, ejecuta `./gradlew dokkaJavadoc`; el resultado queda en `documentation-javadoc/index.html`. El comando `./gradlew dokka Javadoc` genera ambos formatos.
+Desde la raíz del proyecto, ejecuta `./gradlew dokkaHtml` para generar la versión HTML en `documentation/index.html`, o `./gradlew dokkaJavadoc` para la versión Javadoc en `documentation-javadoc/index.html`.
 
 El workflow `.github/workflows/desplegar-dokka.yml` genera el HTML y lo publica en GitHub Pages cuando se hace push a `main`. También puede ejecutarse desde **Actions → Desplegar Dokka en GitHub Pages → Run workflow**.
 
 Para habilitar el despliegue, selecciona **GitHub Actions** en **Settings → Pages → Build and deployment → Source** del repositorio. Las ejecuciones se consultan en [Actions de SendMessageKotlin](https://github.com/sergioantsan/SendMessageKotlin/actions) y la documentación publicada queda en [GitHub Pages](https://sergioantsan.github.io/SendMessageKotlin/).
+
+## 11. Licencia y contacto
+
+Este es un proyecto con fines educativos. Si quieres reutilizarlo, indica la autoría original.
+
+- **Repositorio:** [github.com/sergioantsan/SendMessageKotlin](https://github.com/sergioantsan/SendMessageKotlin)
+- **Autor:** sergioantsan
+- **Issues:** abre una *issue* en el repositorio para sugerencias o errores.
