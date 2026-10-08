@@ -12,7 +12,12 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.sendmessage.model.Message
 import com.example.sendmessage.model.Person
 
-/** Pantalla inicial: recoge el texto y lo envía a [ViewMessageActivity]. */
+/**
+ * Pantalla inicial: recoge el texto y lo envía a [ViewMessageActivity].
+ *
+ * @autor Sergio AS
+ * @version 1.0
+ */
 class SendMessageActivity : AppCompatActivity() {
 
     companion object {

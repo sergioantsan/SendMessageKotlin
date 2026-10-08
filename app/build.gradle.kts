@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.dokka)
     alias(libs.plugins.dokka.javadoc)
 }
@@ -38,6 +39,7 @@ android {
 
 
 dependencies {
+    implementation(libs.kotlin.parcelize.runtime)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)

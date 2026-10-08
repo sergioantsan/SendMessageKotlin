@@ -10,7 +10,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.sendmessage.model.Message
 
-/** Pantalla receptora: recupera el objeto [Message] del Intent y muestra sus datos. */
+/**
+ * Pantalla receptora: recupera el objeto [Message] del Intent y muestra sus datos.
+ *
+ * @autor Sergio AS
+ * @version 1.0
+ */
 class ViewMessageActivity : AppCompatActivity() {
 
     companion object {
@@ -43,14 +48,14 @@ class ViewMessageActivity : AppCompatActivity() {
         } ?: getString(R.string.received_placeholder)
     }
 
-    /** Recupera el extra serializable, devolviendo null si falta o no es un [Message]. */
+    /** Recupera el extra Parcelable, devolviendo null si falta o no es un [Message]. */
     @Suppress("DEPRECATION")
     private fun readMessageExtra(): Message? {
         val extraKey = SendMessageActivity.EXTRA_MESSAGE
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(extraKey, Message::class.java)
+            intent.getParcelableExtra(extraKey, Message::class.java)
         } else {
-            intent.getSerializableExtra(extraKey) as? Message
+            intent.getParcelableExtra(extraKey) as? Message
         }
     }
 
